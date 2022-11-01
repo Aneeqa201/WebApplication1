@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using WebApplication1.Components
+@using WebApplication1.Services
+@using WebApplication1.Models
+@inject JsonPatientFile PatientService 
+
+{
+<div class="row">
+    @foreach (var patient in PatientService.getpatientRecords())
+    {
+        <div id="patientContainer" class="col-lg-3 col-md-4 col-sm-12">
+            <img id="patient_image" src="@patient.patient_image" alt="@patient.patient_name" />
+            <span id="patientTitle">@patient.patient_name</span>
+            <span id="patientMedical">Concern Doctor's Views</span>
+            <span id="patientReport"><input type="file" name="text" value="" placeholder="Patient's Medical Report" /></span>
+            <span id="reportbutton"><button>Save Detail</button></span>
+        </div>
+        <small class="text-muted">
+            <button @onclick="(e => SelectPatient(patient.patient_name))" data-toggle="modal" data-target="#patientModal" class="btn btn-primary">More Info</button>
+        </small>
+    }
+</div>
+}
+@if(selectPatient != null)
+{
+<div class="row">
+    @foreach (var patient in PatientService.getpatientRecords())
+    {
+        <div id="patientContainer" class="col-lg-3 col-md-4 col-sm-12">
+            <img id="patient_image" src="@patient.patient_image" alt="@patient.patient_name" />
+            <span id="patientTitle">@patient.patient_name</span>
+            <span id="patientMedical">Concern Doctor's Views</span>
+            <span id="patientReport"><input type="file" name="text" value="" placeholder="Patient's Medical Report" /></span>
+            <span id="reportbutton"><button>Save Detail</button></span>
+        </div>
+ 
+    }
+</div>
+}
+
+@code {
+    patient selectPatient;
+    string selectpatientname;
+    void SelectPatient(string patientName)
+    {
+        selectpatientname = patientName;
+        selectPatient = PatientService.getpatientRecords().First( x=> x.patient_name == patientName);
+    }
+
+}
